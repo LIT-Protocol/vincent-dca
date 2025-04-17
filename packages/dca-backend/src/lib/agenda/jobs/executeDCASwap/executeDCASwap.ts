@@ -32,6 +32,7 @@ const BASE_CHAIN_ID = '8453';
 async function addApproval({
   baseProvider,
   nativeEthBalance,
+  vincentAppVersion,
   walletAddress,
   WETH_ADDRESS,
   wethAmount,
@@ -40,6 +41,7 @@ async function addApproval({
   WETH_ADDRESS: string;
   baseProvider: ethers.providers.StaticJsonRpcProvider;
   nativeEthBalance: ethers.BigNumber;
+  vincentAppVersion: number;
   wEthDecimals: ethers.BigNumber;
   walletAddress: string;
   wethAmount: number;
@@ -63,7 +65,7 @@ async function addApproval({
     );
   }
 
-  const erc20ApprovalToolClient = getErc20ApprovalToolClient({ vincentAppVersion: 11 });
+  const erc20ApprovalToolClient = getErc20ApprovalToolClient({ vincentAppVersion });
   const toolExecutionResult = await erc20ApprovalToolClient.execute({
     amountIn: (wethAmount * 5).toFixed(18).toString(), // Approve 5x the amount to spend so we don't wait for approval tx's every time we run
     chainId: BASE_CHAIN_ID,
@@ -101,6 +103,7 @@ async function handleSwapExecution({
   nativeEthBalance,
   tokenOutInfo,
   topCoin,
+  vincentAppVersion,
   walletAddress,
   WETH_ADDRESS,
   wethAmount,
@@ -113,6 +116,7 @@ async function handleSwapExecution({
   nativeEthBalance: ethers.BigNumber;
   tokenOutInfo: { decimals: ethers.BigNumber };
   topCoin: Coin;
+  vincentAppVersion: number;
   wEthBalance: ethers.BigNumber;
   wEthDecimals: ethers.BigNumber;
   walletAddress: string;
@@ -142,7 +146,7 @@ async function handleSwapExecution({
     );
   }
 
-  const uniswapToolClient = getUniswapToolClient({ vincentAppVersion: 11 });
+  const uniswapToolClient = getUniswapToolClient({ vincentAppVersion });
   const uniswapSwapToolResponse = await uniswapToolClient.execute({
     amountIn: wethAmount.toFixed(18).toString(),
     chainId: BASE_CHAIN_ID,
@@ -180,7 +184,7 @@ export async function executeDCASwap(job: JobType): Promise<void> {
   try {
     const {
       _id,
-      data: { purchaseAmount, walletAddress },
+      data: { purchaseAmount, vincentAppVersion, walletAddress },
     } = job.attrs;
 
     consola.log('Starting DCA swap job...', {
@@ -259,6 +263,7 @@ export async function executeDCASwap(job: JobType): Promise<void> {
       approvalGasCost = await addApproval({
         baseProvider,
         nativeEthBalance,
+        vincentAppVersion,
         walletAddress,
         wethAmount,
         wEthDecimals,
@@ -272,6 +277,7 @@ export async function executeDCASwap(job: JobType): Promise<void> {
       nativeEthBalance,
       tokenOutInfo,
       topCoin,
+      vincentAppVersion,
       walletAddress,
       wethAmount,
       wEthBalance,

@@ -8,7 +8,7 @@ export const handleListPurchasesRoute = async (
   req: ExpressAuthHelpers['AuthenticatedRequest'],
   res: Response
 ) => {
-  const walletAddress = req.user.pkpAddress;
+  const walletAddress = req.user.pkp.ethAddress;
 
   const purchases = await PurchasedCoin.find({ walletAddress })
     .sort({

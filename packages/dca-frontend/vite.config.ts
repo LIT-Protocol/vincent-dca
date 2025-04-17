@@ -8,6 +8,9 @@ export default defineConfig({
   define: {
     global: 'globalThis',
   },
+  optimizeDeps: {
+    include: ['@lit-protocol/vincent-sdk'], // Dev: delete node_modules/.vite when rebuilding this
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

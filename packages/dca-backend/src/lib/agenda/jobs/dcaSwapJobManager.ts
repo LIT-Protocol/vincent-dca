@@ -54,7 +54,7 @@ export async function editJob({
   data: Omit<executeDCASwapJobDef.JobParams, 'updatedAt'>;
   scheduleId: string;
 }) {
-  const { walletAddress } = data;
+  const { vincentAppVersion, walletAddress } = data;
   const job = await findJob({ scheduleId, walletAddress, mustExist: true });
   const { purchaseIntervalHuman } = data;
 
@@ -66,7 +66,7 @@ export async function editJob({
     job.repeatEvery(purchaseIntervalHuman);
   }
 
-  job.attrs.data = { ...data, updatedAt: new Date(), vincentAppVersion: 11 };
+  job.attrs.data = { ...data, vincentAppVersion, updatedAt: new Date() };
 
   return (await job.save()) as unknown as executeDCASwapJobDef.JobType;
 }

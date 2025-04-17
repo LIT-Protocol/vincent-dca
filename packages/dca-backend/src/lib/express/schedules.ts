@@ -13,7 +13,10 @@ export const handleListSchedulesRoute = async (
   res: Response
 ) => {
   try {
-    const schedules = await listJobsByWalletAddress({ walletAddress: req.user.pkpAddress });
+    const {
+      pkp: { ethAddress },
+    } = req.user.decodedJWT.payload;
+    const schedules = await listJobsByWalletAddress({ walletAddress: ethAddress });
 
     res.json({ data: schedules.map((sched) => sched.toJson()), success: true });
   } catch (err) {
@@ -26,13 +29,18 @@ export const handleCreateScheduleRoute = async (
   res: Response
 ) => {
   try {
+    const {
+      app: { version: appVersion },
+      pkp: { ethAddress },
+    } = req.user.decodedJWT.payload;
+
     const scheduleParams = ScheduleParamsSchema.parse({
       ...req.body,
-      walletAddress: req.user.pkpAddress,
+      walletAddress: ethAddress,
     });
 
     const schedule = await createJob(
-      { ...scheduleParams, vincentAppVersion: 11 },
+      { ...scheduleParams, vincentAppVersion: appVersion },
       { interval: scheduleParams.purchaseIntervalHuman }
     );
     res.status(201).json({ data: schedule.toJson(), success: true });
@@ -46,16 +54,20 @@ export const handleEditScheduleRoute = async (
   res: Response
 ) => {
   try {
+    const {
+      app: { version: appVersion },
+      pkp: { ethAddress },
+    } = req.user.decodedJWT.payload;
     const { scheduleId } = ScheduleIdentitySchema.parse(req.params);
 
     const scheduleParams = ScheduleParamsSchema.parse({
       ...req.body,
-      walletAddress: req.user.pkpAddress,
+      walletAddress: ethAddress,
     });
 
     const job = await editJob({
       scheduleId,
-      data: { ...scheduleParams, vincentAppVersion: 11 },
+      data: { ...scheduleParams, vincentAppVersion: appVersion },
     });
     res.status(201).json({ data: job.toJson(), success: true });
   } catch (err) {
@@ -68,9 +80,12 @@ export const handleDisableScheduleRoute = async (
   res: Response
 ) => {
   try {
+    const {
+      pkp: { ethAddress },
+    } = req.user.decodedJWT.payload;
     const { scheduleId } = ScheduleIdentitySchema.parse(req.params);
 
-    const job = await disableJob({ scheduleId, walletAddress: req.user.pkpAddress });
+    const job = await disableJob({ scheduleId, walletAddress: ethAddress });
     if (!job) {
       res.status(404).json({ error: 'Job not found' });
       return;
@@ -87,9 +102,12 @@ export const handleEnableScheduleRoute = async (
   res: Response
 ) => {
   try {
+    const {
+      pkp: { ethAddress },
+    } = req.user.decodedJWT.payload;
     const { scheduleId } = ScheduleIdentitySchema.parse(req.params);
 
-    const job = await enableJob({ scheduleId, walletAddress: req.user.pkpAddress });
+    const job = await enableJob({ scheduleId, walletAddress: ethAddress });
 
     res.json({ data: job.toJson(), success: true });
   } catch (err) {
@@ -102,9 +120,12 @@ export const handleDeleteScheduleRoute = async (
   res: Response
 ) => {
   try {
+    const {
+      pkp: { ethAddress },
+    } = req.user.decodedJWT.payload;
     const { scheduleId } = ScheduleIdentitySchema.parse(req.params);
 
-    await cancelJob({ scheduleId, walletAddress: req.user.pkpAddress });
+    await cancelJob({ scheduleId, walletAddress: ethAddress });
 
     res.json({ success: true });
   } catch (err) {

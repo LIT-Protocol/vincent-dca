@@ -1,4 +1,4 @@
-import React from 'react';
+import { FC } from 'react';
 
 import { Box } from '@/components/ui/box';
 import { Label } from '@/components/ui/label';
@@ -40,7 +40,7 @@ export interface FrequencySelectProps {
   value?: string;
 }
 
-export const SelectFrequency: React.FC<FrequencySelectProps> = ({
+export const SelectFrequency: FC<FrequencySelectProps> = ({
   disabled,
   onChange,
   value,

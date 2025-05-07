@@ -1,4 +1,4 @@
-import React, { FormEvent, useCallback, useState } from 'react';
+import { FormEvent, useCallback, useState, FC } from 'react';
 import { Pencil } from 'lucide-react';
 
 import { InputAmount } from '@/components/input-amount';
@@ -22,7 +22,7 @@ export interface EditDialogProps {
   onUpdate?: (updatedDCA: DCA) => void;
 }
 
-export const DialogueEditDCA: React.FC<EditDialogProps> = ({ dca, onUpdate }) => {
+export const DialogueEditDCA: FC<EditDialogProps> = ({ dca, onUpdate }) => {
   const { data } = dca;
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);

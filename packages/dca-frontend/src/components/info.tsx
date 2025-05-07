@@ -1,8 +1,8 @@
-import React from 'react';
+import { FC } from 'react';
 
 import { Box } from '@/components/ui/box';
 
-export const Info: React.FC = () => {
+export const Info: FC = () => {
   return (
     <Box className="flex-row gap-1 m-4 p-0 text-sm text-gray-500 bg-transparent">
       <a

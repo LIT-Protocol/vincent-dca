@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, FC } from 'react';
 import { Delete, Pause, Play } from 'lucide-react';
 
 import { useBackend, DCA } from '@/hooks/useBackend';
@@ -130,7 +130,7 @@ function renderContent(
   }
 }
 
-export const ActiveDcas: React.FC = () => {
+export const ActiveDcas: FC = () => {
   const [activeDCAs, setActiveDCAs] = useState<DCA[]>([]);
   const { deleteDCA, disableDCA, enableDCA, getDCAs } = useBackend();
 

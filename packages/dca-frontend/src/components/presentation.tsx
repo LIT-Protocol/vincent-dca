@@ -1,4 +1,5 @@
-import React from 'react';
+import { useCallback, FC } from 'react';
+import { reactHelpers } from '@lit-protocol/vincent-sdk';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -11,10 +12,16 @@ import {
 } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Info } from '@/components/info';
-import { useBackend } from '@/hooks/useBackend';
+import { REDIRECT_URI } from '@/config';
 
-export const Presentation: React.FC = () => {
-  const { getJwt } = useBackend();
+const { useJwtContext } = reactHelpers;
+
+export const Presentation: FC = () => {
+  const { connect } = useJwtContext();
+
+  const getJwt = useCallback(() => {
+    connect(REDIRECT_URI);
+  }, [connect]);
 
   return (
     <Card data-testId="presentation" className="w-full md:max-w-md bg-white p-8 shadow-sm">

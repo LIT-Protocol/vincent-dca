@@ -1,7 +1,7 @@
-import { Input } from '@/components/ui/input';
-import React from 'react';
+import { FC } from 'react';
 
 import { Box } from '@/components/ui/box';
+import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
 export const DEFAULT_VALUE = '1.00';
@@ -13,12 +13,7 @@ export interface FrequencySelectProps {
   value?: string;
 }
 
-export const InputAmount: React.FC<FrequencySelectProps> = ({
-  disabled,
-  onChange,
-  value,
-  required,
-}) => {
+export const InputAmount: FC<FrequencySelectProps> = ({ disabled, onChange, value, required }) => {
   return (
     <Box className="py-0 gap-0 text-center">
       <Label htmlFor="dcaAmount" className="mb-1 block text-sm font-medium">

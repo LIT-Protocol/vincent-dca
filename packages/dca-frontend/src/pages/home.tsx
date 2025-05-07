@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, FC } from 'react';
 
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { CreateDCA } from '@/components/create-dca';
@@ -12,7 +12,7 @@ enum Tab {
   Wallet = 'wallet',
 }
 
-export const Home: React.FC = () => {
+export const Home: FC = () => {
   const [activeTab, setActiveTab] = useState<Tab>(Tab.CreateDCA);
 
   return (

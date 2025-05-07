@@ -1,4 +1,5 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, FC } from 'react';
+import { reactHelpers } from '@lit-protocol/vincent-sdk';
 import { ethers } from 'ethers';
 import { LogOut, RefreshCcw } from 'lucide-react';
 
@@ -8,21 +9,22 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Spinner } from '@/components/ui/spinner';
-import { JwtContext } from '@/contexts/jwt';
 import { useChain } from '@/hooks/useChain';
+
+const { useJwtContext } = reactHelpers;
 
 const formatAddress = (address: string | undefined) => {
   if (!address) return 'Loading...';
   return `${address.slice(0, 6)}...${address.slice(-4)}`;
 };
 
-export const Wallet: React.FC = () => {
+export const Wallet: FC = () => {
   const { chain, provider, wethContract } = useChain();
   const [ethBalance, setEthBalance] = useState<string>('0');
   const [wethBalance, setWethBalance] = useState<string>('0');
   const [isLoadingBalance, setIsLoadingBalance] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const { authInfo, logOut } = useContext(JwtContext);
+  const { authInfo, logOut } = useJwtContext();
 
   // Function to fetch PKP wethBalanceWei directly using ethers.js
   const fetchPkpBalance = useCallback(async () => {

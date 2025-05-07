@@ -1,8 +1,7 @@
-import { useCallback, useContext } from 'react';
+import { useCallback } from 'react';
+import { reactHelpers } from '@lit-protocol/vincent-sdk';
 
-import { BACKEND_URL, REDIRECT_URI } from '@/config';
-import { JwtContext } from '@/contexts/jwt';
-import { useVincentWebAppClient } from '@/hooks/useVincentWebAppClient';
+import { BACKEND_URL } from '@/config';
 
 type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
@@ -30,17 +29,10 @@ export interface CreateDCARequest {
   purchaseIntervalHuman: string;
 }
 
-export const useBackend = () => {
-  const { authInfo } = useContext(JwtContext);
-  const vincentWebAppClient = useVincentWebAppClient();
+const { useJwtContext } = reactHelpers;
 
-  const getJwt = useCallback(() => {
-    // Redirect to Vincent Auth consent page with appId and version
-    vincentWebAppClient.redirectToConsentPage({
-      // consentPageUrl: `http://localhost:3000/`,
-      redirectUri: REDIRECT_URI,
-    });
-  }, [vincentWebAppClient]);
+export const useBackend = () => {
+  const { authInfo } = useJwtContext();
 
   const sendRequest = useCallback(
     async <T>(endpoint: string, method: HTTPMethod, body?: unknown): Promise<T> => {
@@ -120,6 +112,5 @@ export const useBackend = () => {
     editDCA,
     enableDCA,
     getDCAs,
-    getJwt,
   };
 };

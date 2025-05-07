@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, FC } from 'react';
 import { CircleAlert } from 'lucide-react';
 
 import { Box } from '@/components/ui/box';
@@ -19,7 +19,7 @@ export interface DCADetailsDialogProps {
   dca: DCA;
 }
 
-export const DialogueDcaFailedDetails: React.FC<DCADetailsDialogProps> = ({ dca }) => {
+export const DialogueDcaFailedDetails: FC<DCADetailsDialogProps> = ({ dca }) => {
   const [open, setOpen] = useState(false);
 
   // Format date for display

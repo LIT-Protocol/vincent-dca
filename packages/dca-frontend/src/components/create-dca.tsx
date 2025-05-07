@@ -1,4 +1,4 @@
-import React, { useState, FormEvent } from 'react';
+import { useState, FormEvent, FC } from 'react';
 
 import { useBackend } from '@/hooks/useBackend';
 import { Box } from '@/components/ui/box';
@@ -19,7 +19,7 @@ export interface CreateDCAProps {
   onCreate?: () => void;
 }
 
-export const CreateDCA: React.FC<CreateDCAProps> = ({ onCreate }) => {
+export const CreateDCA: FC<CreateDCAProps> = ({ onCreate }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [name] = useState<string>('name');
   const [purchaseAmount, setPurchaseAmount] = useState<string>(DEFAULT_VALUE);
